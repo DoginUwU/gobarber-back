@@ -3,3 +3,5 @@ dist/
 /*.js
 yarn.lock
 .env
+tmp/*
+!tmp/.gitkeep
