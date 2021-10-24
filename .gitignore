@@ -5,3 +5,4 @@ yarn.lock
 .env
 tmp/*
 !tmp/.gitkeep
+yarn-error.log
