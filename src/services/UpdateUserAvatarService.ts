@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import uploadConfig from '../config/upload';
 import User from '../models/User';
+import { EmptyAvatarError, UnauthenticatedUserError } from '../errors/user';
 
 interface Request {
     user_id: string;
@@ -15,9 +16,8 @@ class UpdateUserAvatarService {
 
         const user = await usersRepository.findOne(user_id);
 
-        if (!user)
-            throw new Error('Only authenticated users can change avatar');
-        if (!avatarFilename) throw new Error('You must provide an avatar');
+        if (!user) throw new UnauthenticatedUserError();
+        if (!avatarFilename) throw new EmptyAvatarError();
 
         if (user.avatar) {
             const userAvatarFilePath = path.join(
