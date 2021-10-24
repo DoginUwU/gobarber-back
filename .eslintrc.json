@@ -29,7 +29,8 @@
                 "ts": "never"
             }
         ],
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "import/prefer-default-export": "off"
     },
     "settings": {
         "import/resolver": {
