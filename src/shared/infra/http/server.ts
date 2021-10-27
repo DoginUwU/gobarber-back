@@ -3,11 +3,13 @@ import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import uploadConfig from './config/upload';
-import routes from './routes';
 
-import './database';
+import uploadConfig from '@config/upload';
+import routes from './routes';
 import errorHandler from './middlewares/errorHandler';
+
+import '@shared/infra/typeorm';
+import '@shared/container';
 
 dotenv.config();
 
