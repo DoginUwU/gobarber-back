@@ -3,7 +3,7 @@ import { verify } from 'jsonwebtoken';
 import AppError from '@shared/errors/AppError';
 import authConfig from '@config/auth';
 
-interface JwtProvider {
+interface IJwtProvider {
     iat: number;
     exp: number;
     sub: string;
@@ -11,7 +11,7 @@ interface JwtProvider {
 
 const ensureAuthenticated = (
     request: Request,
-    response: Response,
+    _: Response,
     next: NextFunction,
 ): void => {
     const authHeader = request.headers.authorization;
@@ -23,7 +23,7 @@ const ensureAuthenticated = (
     try {
         const decoded = verify(token, authConfig.jwt.secret);
 
-        const { sub } = decoded as JwtProvider;
+        const { sub } = decoded as IJwtProvider;
 
         request.user = {
             id: sub,
