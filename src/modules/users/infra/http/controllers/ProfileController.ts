@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import { container } from 'tsyringe';
-import UpdateProfileService from '@modules/users/services/UpdateProfileService';
-import ShowProfileService from '@modules/users/services/ShowProfileService';
+import { Request, Response } from "express";
+import { container } from "tsyringe";
+import UpdateProfileService from "@modules/users/services/UpdateProfileService";
+import ShowProfileService from "@modules/users/services/ShowProfileService";
 
 class ProfileController {
     public async show(request: Request, response: Response): Promise<Response> {
@@ -19,7 +19,7 @@ class ProfileController {
 
     public async update(
         request: Request,
-        response: Response,
+        response: Response
     ): Promise<Response> {
         const user_id = request.user.id;
         const { name, email, old_password, password } = request.body;

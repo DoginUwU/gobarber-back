@@ -1,9 +1,9 @@
-import { inject, injectable } from 'tsyringe';
-import path from 'path';
-import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
-import AppError from '@shared/errors/AppError';
-import IUsersRepository from '../repositories/IUsersRepository';
-import IUserTokensRepository from '../repositories/IUserTokensRepository';
+import { inject, injectable } from "tsyringe";
+import path from "path";
+import IMailProvider from "@shared/container/providers/MailProvider/models/IMailProvider";
+import AppError from "@shared/errors/AppError";
+import IUsersRepository from "../repositories/IUsersRepository";
+import IUserTokensRepository from "../repositories/IUserTokensRepository";
 
 interface IRequest {
     email: string;
@@ -12,26 +12,26 @@ interface IRequest {
 @injectable()
 class SendForgotPasswordEmailService {
     constructor(
-        @inject('UsersRepository')
+        @inject("UsersRepository")
         private usersRepository: IUsersRepository,
-        @inject('MailProvider')
+        @inject("MailProvider")
         private mailProvider: IMailProvider,
-        @inject('UserTokensRepository')
-        private userTokensRepository: IUserTokensRepository,
+        @inject("UserTokensRepository")
+        private userTokensRepository: IUserTokensRepository
     ) {}
 
     public async execute({ email }: IRequest): Promise<void> {
         const user = await this.usersRepository.findByEmail(email);
 
-        if (!user) throw new AppError('User does not exists.');
+        if (!user) throw new AppError("User does not exists.");
 
         const { token } = await this.userTokensRepository.generate(user.id);
 
         const forgotPasswordTemplate = path.resolve(
             __dirname,
-            '..',
-            'templates',
-            'forgot_password.hbs',
+            "..",
+            "templates",
+            "forgot_password.hbs"
         );
 
         await this.mailProvider.sendMail({
@@ -39,12 +39,12 @@ class SendForgotPasswordEmailService {
                 name: user.name,
                 email: user.email,
             },
-            subject: '[GoBarber] Recuperação de senha',
+            subject: "[GoBarber] Recuperação de senha",
             templateData: {
                 file: forgotPasswordTemplate,
                 variables: {
                     name: user.name,
-                    link: `http://localhost:3333/reset-password?token=${token}`,
+                    link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,
                 },
             },
         });
