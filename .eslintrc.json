@@ -51,8 +51,7 @@
                     "match": true
                 }
             }
-        ],
-        "@typescript-eslint/ban-ts-comment": "off"
+        ]
     },
     "settings": {
         "import/resolver": {
