@@ -7,3 +7,4 @@ tmp/*
 !tmp/.gitkeep
 yarn-error.log
 coverage/
+ormconfig.json
