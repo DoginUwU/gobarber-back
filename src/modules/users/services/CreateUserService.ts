@@ -1,8 +1,9 @@
-import { AlreadyEmailError } from '@shared/errors/user';
-import { inject, injectable } from 'tsyringe';
-import User from '../infra/typeorm/entities/User';
-import IUsersRepository from '../repositories/IUsersRepository';
-import IHashProvider from '../providers/HashProvider/models/IHashProvider';
+import { AlreadyEmailError } from "@shared/errors/user";
+import { inject, injectable } from "tsyringe";
+import ICacheProvider from "@shared/container/providers/CacheProvider/models/ICacheProvider";
+import User from "../infra/typeorm/entities/User";
+import IUsersRepository from "../repositories/IUsersRepository";
+import IHashProvider from "../providers/HashProvider/models/IHashProvider";
 
 interface IRequest {
     name: string;
@@ -13,10 +14,12 @@ interface IRequest {
 @injectable()
 class CreateUserService {
     constructor(
-        @inject('UsersRepository')
+        @inject("UsersRepository")
         private usersRepository: IUsersRepository,
-        @inject('HashProvider')
+        @inject("HashProvider")
         private hashProvider: IHashProvider,
+        @inject("CacheProvider")
+        private cacheProvider: ICacheProvider
     ) {}
 
     public async execute({ name, email, password }: IRequest): Promise<User> {
@@ -31,6 +34,8 @@ class CreateUserService {
             email,
             password: hashedPassword,
         });
+
+        await this.cacheProvider.invalidatePrefix("providers-list");
 
         return user;
     }
