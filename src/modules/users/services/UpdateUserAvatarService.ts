@@ -1,11 +1,11 @@
 import {
     EmptyAvatarError,
     UnauthenticatedUserError,
-} from '@shared/errors/user';
-import { inject, injectable } from 'tsyringe';
-import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
-import User from '../infra/typeorm/entities/User';
-import IUsersRepository from '../repositories/IUsersRepository';
+} from "@shared/errors/user";
+import { inject, injectable } from "tsyringe";
+import IStorageProvider from "@shared/container/providers/StorageProvider/models/IStorageProvider";
+import User from "../infra/typeorm/entities/User";
+import IUsersRepository from "../repositories/IUsersRepository";
 
 interface IRequest {
     user_id: string;
@@ -15,10 +15,10 @@ interface IRequest {
 @injectable()
 class UpdateUserAvatarService {
     constructor(
-        @inject('UsersRepository')
+        @inject("UsersRepository")
         private usersRepository: IUsersRepository,
-        @inject('StorageProvider')
-        private storageProvider: IStorageProvider,
+        @inject("StorageProvider")
+        private storageProvider: IStorageProvider
     ) {}
 
     public async execute({ user_id, avatarFilename }: IRequest): Promise<User> {
