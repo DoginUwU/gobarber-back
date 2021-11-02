@@ -11,13 +11,14 @@ import errorHandler from "./middlewares/errorHandler";
 
 import "@shared/infra/typeorm";
 import "@shared/container";
+import rateLimiter from "./middlewares/rateLimiter";
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors());
-
+app.use(rateLimiter);
 app.use(express.json());
 app.use("/files", express.static(uploadConfig.uploadsFolder));
 app.use(routes);
